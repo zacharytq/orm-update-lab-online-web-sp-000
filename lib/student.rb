@@ -62,12 +62,13 @@ class Student
     student = Student.new(row[1],row[2], row[0])
     student
   end
+
   def self.find_by_name(name)
     sql = <<-SQL
       SELECT * FROM students
       WHERE students.name = ?
     SQL
 
-    DB[:conn].execute(sql, name).map {}
+    DB[:conn].execute(sql, name).map {|a| Student.new_from_db(a)}.first
   end
 end
